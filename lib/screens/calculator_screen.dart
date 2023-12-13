@@ -10,9 +10,9 @@ class CalculatorScreen extends StatefulWidget {
 }
 
 class _CalculatorScreenState extends State<CalculatorScreen> {
-  String number1 = ""; // . 0-9
-  String operand = ""; // + - * /
-  String number2 = ""; // . 0-9
+  String number1 = "";
+  String operand = "";
+  String number2 = "";
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +22,15 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         bottom: false,
         child: Column(
           children: [
-            // output
+            //Output Section
             Expanded(
               child: SingleChildScrollView(
                 reverse: true,
                 child: Container(
+                  height: (number1).isEmpty ? 150 : screenSize.height,
+                  width: screenSize.width,
+                  margin: const EdgeInsets.all(8),
+                  color: const Color.fromARGB(255, 141, 128, 128),
                   alignment: Alignment.bottomRight,
                   padding: const EdgeInsets.all(16),
                   child: Text(
@@ -43,7 +47,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               ),
             ),
 
-            // buttons
+            // Buttons Size Section
             Wrap(
               children: Button.buttonValues
                   .map(
@@ -63,10 +67,13 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     );
   }
 
+  //Button Confiq Section
   Widget buildButton(value) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Material(
+        elevation: 5,
+        shadowColor: Colors.grey,
         color: buttonColor(value),
         clipBehavior: Clip.hardEdge,
         shape: OutlineInputBorder(
@@ -82,7 +89,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               value,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 24,
+                fontSize: 25,
               ),
             ),
           ),
@@ -115,7 +122,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     appendValue(value);
   }
 
-  // calculates the result
+  // Calculates the result
   void calculate() {
     if (number1.isEmpty) return;
     if (operand.isEmpty) return;
@@ -153,8 +160,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     });
   }
 
-  // ##############
-  // converts output to %
+  // Convert the input in percentage
   void convertToPercentage() {
     // ex: 434+324
     if (number1.isNotEmpty && operand.isNotEmpty && number2.isNotEmpty) {
@@ -163,7 +169,6 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     }
 
     if (operand.isNotEmpty) {
-      // cannot be converted
       return;
     }
 
@@ -175,8 +180,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     });
   }
 
-  // ##############
-  // clears all output
+  // Clears full display
   void clearAll() {
     setState(() {
       number1 = "";
@@ -185,11 +189,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     });
   }
 
-  // ##############
-  // delete one from the end
+  // Delete one to one from the end
   void delete() {
     if (number2.isNotEmpty) {
-      // 12323 => 1232
       number2 = number2.substring(0, number2.length - 1);
     } else if (operand.isNotEmpty) {
       operand = "";
@@ -200,37 +202,26 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     setState(() {});
   }
 
-  // #############
-  // appends value to the end
+  // Appends value to the end
   void appendValue(String value) {
-    // number1 opernad number2
-    // 234       +      5343
-
-    // if is operand and not "."
     if (value != Button.dot && int.tryParse(value) == null) {
-      // operand pressed
       if (operand.isNotEmpty && number2.isNotEmpty) {
-        // TODO calculate the equation before assigning new operand
         calculate();
       }
       operand = value;
     }
-    // assign value to number1 variable
+    // Assign value to number1 variable
     else if (number1.isEmpty || operand.isEmpty) {
-      // check if value is "." | ex: number1 = "1.2"
       if (value == Button.dot && number1.contains(Button.dot)) return;
       if (value == Button.dot && (number1.isEmpty || number1 == Button.n0)) {
-        // ex: number1 = "" | "0"
         value = "0.";
       }
       number1 += value;
     }
-    // assign value to number2 variable
+    // Assign value to number2 variable
     else if (number2.isEmpty || operand.isNotEmpty) {
-      // check if value is "." | ex: number1 = "1.2"
       if (value == Button.dot && number2.contains(Button.dot)) return;
       if (value == Button.dot && (number2.isEmpty || number2 == Button.n0)) {
-        // number1 = "" | "0"
         value = "0.";
       }
       number2 += value;

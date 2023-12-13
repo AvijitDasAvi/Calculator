@@ -21,8 +21,8 @@ class Button {
   static const String n9 = "9";
 
   static const List<String> buttonValues = [
-    del,
     clr,
+    del,
     per,
     multiply,
     n7,
