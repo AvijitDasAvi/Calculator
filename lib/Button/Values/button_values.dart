@@ -39,6 +39,6 @@ class Button {
     add,
     n0,
     dot,
-    calculate
+    calculate,
   ];
 }
