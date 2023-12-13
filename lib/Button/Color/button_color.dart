@@ -15,7 +15,7 @@ Color buttonColor(value) {
               Button.subtract,
               Button.calculate
             ].contains(value)
-              ? Colors.orange
+              ? const Color.fromARGB(255, 83, 114, 255)
               : [Button.dot].contains(value)
                   ? Colors.white24
                   : Colors.black;
